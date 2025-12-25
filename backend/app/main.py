@@ -35,7 +35,7 @@ def health():
 def search_items(q: str = Query(min_length=1, max_length=50)):
     conn = get_conn()
     cur = conn.cursor()
-    cur.execute(f"SELECT id, name FROM items WHERE name LIKE '%{q}%'")
+    cur.execute("SELECT id, name FROM items WHERE name LIKE ?", (f"%{q}%",))
     rows = cur.fetchall()
     conn.close()
     return [{"id": r[0], "name": r[1]} for r in rows]
